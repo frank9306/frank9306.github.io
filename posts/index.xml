@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Posts on xiaoliu's blog</title><link>https://frank9306.github.io/posts/</link><description>Recent content in Posts on xiaoliu's blog</description><generator>Hugo -- 0.152.2</generator><language>zh-cn</language><lastBuildDate>Fri, 24 Oct 2025 15:17:53 +0800</lastBuildDate><atom:link href="https://frank9306.github.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>First</title><link>https://frank9306.github.io/posts/first/</link><pubDate>Fri, 24 Oct 2025 15:17:53 +0800</pubDate><guid>https://frank9306.github.io/posts/first/</guid><description>&lt;h1 id="first-post"&gt;first post&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;hello, this is first post&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="第二章节"&gt;第二章节&lt;/h2&gt;</description></item><item><title/><link>https://frank9306.github.io/posts/1111/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-llamaindex%E5%9F%BA%E4%BA%8E-notion-%E6%96%87%E6%A1%A3%E7%9A%84%E6%99%BA%E8%83%BD%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E5%AE%9E%E6%88%98-21f96f3e8e6e80f8a370f79d08eee6a7/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://frank9306.github.io/posts/1111/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3-llamaindex%E5%9F%BA%E4%BA%8E-notion-%E6%96%87%E6%A1%A3%E7%9A%84%E6%99%BA%E8%83%BD%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E5%AE%9E%E6%88%98-21f96f3e8e6e80f8a370f79d08eee6a7/</guid><description>&lt;h1 id="深入理解-llamaindex基于-notion-文档的智能问答系统实战"&gt;深入理解 LlamaIndex：基于 Notion 文档的智能问答系统实战&lt;/h1&gt;
+&lt;p&gt;type: Post
+status: Published
+date: 2025/06/27
+tags: ai, llamaindex, notion
+category: 技术分享&lt;/p&gt;
+&lt;p&gt;在人工智能日益融入开发者工具链的今天，我最初计划使用 LangChain 构建一个基于文档的智能问答系统。LangChain 作为一个强大的框架，能够将大型语言模型（LLMs）与各种数据源和应用场景连接起来，看起来是个不错的选择。&lt;/p&gt;
+&lt;p&gt;然而，在深入研究和实践过程中，我发现了 LlamaIndex（前身为 GPT Index）这个更为专注于知识检索和问答的框架。LlamaIndex 在处理文档索引、构建知识库以及生成上下文相关回答方面，提供了更为精细和直观的工具。尤其是对于我这个需要基于 Notion 文档构建智能问答系统的场景，LlamaIndex 提供了更加无缝的集成体验。&lt;/p&gt;
+&lt;p&gt;本文将分享我从 LangChain 转向 LlamaIndex 的经历，以及如何利用 LlamaIndex 构建一个能够理解、检索并回答 Notion 文档内容的智能问答系统。无论你是 AI 开发新手，还是寻找更高效文档处理方案的资深开发者，希望这篇实战分享能给你带来一些启发。&lt;/p&gt;
+&lt;h2 id="什么是-llamaindex"&gt;什么是 LlamaIndex？&lt;/h2&gt;
+&lt;p&gt;LlamaIndex（原名 GPT Index）是一个开源框架，帮你把各种格式的文档变成结构化的索引，方便大语言模型（LLM）用更少的上下文轻松理解和回答问题。简单说就是：帮你把大海捞针变成小池塘钓鱼。&lt;/p&gt;
+&lt;p&gt;官网：&lt;a href="https://www.llamaindex.ai/"&gt;https://www.llamaindex.ai/&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="我们的目标"&gt;我们的目标&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;从 Notion 加载文档（不限深度递归）&lt;/li&gt;
+&lt;li&gt;用 HuggingFace 的嵌入模型做向量化&lt;/li&gt;
+&lt;li&gt;自定义 DeepSeek LLM 做问答&lt;/li&gt;
+&lt;li&gt;持久化索引，方便下次直接用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="项目结构及代码说明"&gt;项目结构及代码说明&lt;/h2&gt;
+&lt;h3 id="1-环境准备"&gt;1. 环境准备&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style="display:flex;"&gt;&lt;span&gt;pip install llama-index notion-client python-dotenv requests
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;并且你需要在 &lt;code&gt;.env&lt;/code&gt; 文件里配置：&lt;/p&gt;</description></item><item><title/><link>https://frank9306.github.io/posts/caniscrape%E4%B8%BA%E7%8E%B0%E4%BB%A3%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%99%BA%E8%83%BD%E5%8F%8D%E7%88%AC%E5%88%86%E6%9E%90%E4%B8%8E%E7%AD%96%E7%95%A5%E8%AF%84%E4%BC%B0%E5%B7%A5%E5%85%B7-29696f3e8e6e802ba9a1d814aa925d75/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://frank9306.github.io/posts/caniscrape%E4%B8%BA%E7%8E%B0%E4%BB%A3%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%99%BA%E8%83%BD%E5%8F%8D%E7%88%AC%E5%88%86%E6%9E%90%E4%B8%8E%E7%AD%96%E7%95%A5%E8%AF%84%E4%BC%B0%E5%B7%A5%E5%85%B7-29696f3e8e6e802ba9a1d814aa925d75/</guid><description>&lt;h1 id="caniscrape为现代网络环境设计的智能反爬分析与策略评估工具"&gt;caniscrape：为现代网络环境设计的智能反爬分析与策略评估工具&lt;/h1&gt;
+&lt;p&gt;type: Post
+status: Published
+date: 2025/10/24
+tags: automation, bot, browser, playwright, python, selenium, 工具, 开发
+category: 技术分享&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;摘要&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在网络安全与数据采集之间的灰色地带，如何在合规前提下理解网站的防护体系，是爬虫工程师与安全研究人员共同的需求。&lt;strong&gt;caniscrape&lt;/strong&gt; 正是为此而生的一个开源工具——它通过自动化分析网站的反爬机制，帮助开发者在不实际触碰目标数据的情况下，评估采集可行性与风险等级。本文将从项目设计思路、实现方式与实际输出三个维度进行深入解析。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="一项目概述让爬虫更聪明而非更鲁莽"&gt;一、项目概述：让爬虫更聪明，而非更鲁莽&lt;/h2&gt;
+&lt;p&gt;传统的爬虫项目往往在“能不能抓到数据”上花力气，却忽略了“是否合规、是否可能被封禁、是否安全”这类更高层次的判断。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;caniscrape&lt;/strong&gt; 的设计目标并不是直接采集数据，而是：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;「在不抓取真实数据的前提下，评估目标网站的防护级别、潜在限制与技术栈特征。」&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;换言之，它是一个“&lt;strong&gt;爬取可行性分析器&lt;/strong&gt;”，让你在编写实际爬虫代码前，先获得一份完整的技术诊断报告。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="二核心功能与检测机制"&gt;二、核心功能与检测机制&lt;/h2&gt;
+&lt;p&gt;caniscrape 的核心功能围绕五个维度展开：&lt;/p&gt;
+&lt;h3 id="1-robotstxt-合规性检测"&gt;1. &lt;strong&gt;robots.txt 合规性检测&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;工具会自动解析目标站点的 &lt;code&gt;/robots.txt&lt;/code&gt; 文件，检测是否允许爬虫访问关键路径，从而提示开发者是否存在潜在的合规风险。&lt;/p&gt;
+&lt;h3 id="2-tls-与客户端指纹分析"&gt;2. &lt;strong&gt;TLS 与客户端指纹分析&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;通过检测服务器对不同 TLS 握手与 HTTP 指纹的响应差异，caniscrape 能判断网站是否启用了“客户端识别”策略。例如，区分出标准 Python 客户端（如 requests）与真实浏览器（如 Chrome）的访问行为。&lt;/p&gt;
+&lt;h3 id="3-javascript-渲染依赖检测"&gt;3. &lt;strong&gt;JavaScript 渲染依赖检测&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;caniscrape 会模拟无头浏览器环境，评估页面在无 JavaScript 执行时的内容完整度。如果大量内容依赖前端渲染，则提示需使用 &lt;strong&gt;Playwright&lt;/strong&gt; 或 &lt;strong&gt;Selenium&lt;/strong&gt; 等工具进行动态加载。&lt;/p&gt;
+&lt;h3 id="4-waf-与-captcha-探测"&gt;4. &lt;strong&gt;WAF 与 CAPTCHA 探测&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;工具会自动识别网站是否部署了 &lt;strong&gt;Cloudflare Turnstile&lt;/strong&gt;、&lt;strong&gt;hCaptcha&lt;/strong&gt;、&lt;strong&gt;reCAPTCHA&lt;/strong&gt; 等验证机制，同时检测防火墙（WAF）响应特征，以判断反自动化防护等级。&lt;/p&gt;
+&lt;h3 id="5-速率限制与行为陷阱分析"&gt;5. &lt;strong&gt;速率限制与行为陷阱分析&lt;/strong&gt;&lt;/h3&gt;
+&lt;p&gt;caniscrape 通过发送受控请求、记录响应延迟与状态码模式，判断网站是否存在请求频率限制或蜜罐（honeypot）机制。&lt;/p&gt;</description></item></channel></rss>
